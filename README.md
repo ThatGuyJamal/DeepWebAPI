@@ -1,3 +1,5 @@
-# deepwebapi
+# Offical Docs for the DeepWebApi Discord Bot
 
-The main repo for the bot
+more coming soon.
+
+Support server: [click me](https://discord.gg/NbqBQbaejS)
