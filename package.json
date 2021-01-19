@@ -1,0 +1,19 @@
+{
+	"name": "deepweb2",
+	"version": "1.0.0",
+	"main": "src/bot.js",
+	"license": "MIT",
+	"dependencies": {
+		"commando-provider-mongo": "^2.0.2",
+		"discord.js": "^12.5.1",
+		"discord.js-commando": "discordjs/Commando",
+		"mongodb": "^3.6.3",
+		"mongoose": "^5.11.12",
+		"nodemon": "^2.0.7"
+	},
+	"scripts": {
+		"dev": "nodemon",
+		"commando": "null",
+		"start": "node ."
+	}
+}

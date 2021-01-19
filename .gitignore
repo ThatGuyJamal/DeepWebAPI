@@ -1,0 +1,9 @@
+# Files were not putting on github
+
+# main
+node_modules
+
+# other
+config.json
+assets
+src
