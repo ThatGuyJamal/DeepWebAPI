@@ -6,16 +6,21 @@
 	"dependencies": {
 		"ascii-table": "^0.0.9",
 		"canvas": "^2.6.1",
+		"cheerio": "^1.0.0-rc.5",
 		"commando-provider-mongo": "^2.0.2",
+		"cpu-stat": "^2.0.1",
 		"discord.js": "^12.5.1",
 		"discord.js-commando": "discordjs/Commando",
 		"html-entities": "^2.1.0",
 		"moment": "^2.29.1",
+		"moment-duration-format": "^2.3.2",
 		"mongodb": "^3.6.3",
 		"mongoose": "^5.11.12",
 		"node-superfetch": "^0.1.10",
 		"nodemon": "^2.0.7",
+		"os": "^0.1.1",
 		"stackblur-canvas": "^2.4.0",
+		"superagent": "^6.1.0",
 		"util": "^0.12.3"
 	},
 	"scripts": {
