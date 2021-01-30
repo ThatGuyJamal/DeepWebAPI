@@ -28,4 +28,4 @@ Contact the bot's owner. We can discuss more there.
 
 4. Can I donate to support the bot?
 
-Yes! You can donate to our [paypal](https://www.google.com/search?q=coming+soon&safe=strict&rlz=1C1CHBF_enUS924US924&sxsrf=ALeKk010QlZJaJDxzFDI0lgNExUDEBzPdg:1611980785964&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjc4Iax6MLuAhXjhOAKHRbJAgQQ_AUoAXoECCIQAw&biw=958&bih=937#imgrc=agcCkkIlSeBiUM) or the servers [Donation-Bot](https://donatebot.io/checkout/771507203647209482?buyer=370637638820036608)
+Yes! You can donate to our [paypal](https://www.google.com/search?q=coming+soon&safe=strict&rlz=1C1CHBF_enUS924US924&sxsrf=ALeKk010QlZJaJDxzFDI0lgNExUDEBzPdg:1611980785964&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjc4Iax6MLuAhXjhOAKHRbJAgQQ_AUoAXoECCIQAw&biw=958&bih=937#imgrc=agcCkkIlSeBiUM) or the servers [Donation-Bot](https://donatebot.io/checkout/771507203647209482?buyer=370637638820036608).
