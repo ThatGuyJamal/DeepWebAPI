@@ -6,6 +6,7 @@ node_modules
 # important secrets 
 config.json
 assets
+bot.js
 
 # Bot files to hide
 commands
