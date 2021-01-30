@@ -6,7 +6,13 @@ node_modules
 # important secrets 
 config.json
 assets
+
+# Bot files to hide
 commands
 db
 util
+
+# website 
+test
+
 
