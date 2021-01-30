@@ -1,9 +1,12 @@
-# Files were not putting on github
+# Files to not putting on github
 
-# main
+# downloads
 node_modules
 
-# other
+# important secrets 
 config.json
 assets
-src
+commands
+db
+util
+
