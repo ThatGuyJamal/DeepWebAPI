@@ -20,7 +20,6 @@
 	},
 	"scripts": {
 		"dev": "nodemon",
-		"commando": "null",
 		"start": "node ."
 	}
 }
