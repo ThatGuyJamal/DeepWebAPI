@@ -13,7 +13,7 @@ const client = new Commando.Client({
 	invite: "https://discord.gg/NbqBQbaejS",
 	disableMentions: "everyone",
 	partials: ["GUILD_MEMBER", "MESSAGE", "REACTION", "USER", "CHANNEL"],
-	ws: { intents: [Intents.NON_PRIVILEGED, "GUILD_MEMBERS"] },
+	//ws: { intents: [Intents.NON_PRIVILEGED, "GUILD_MEMBERS"] }, //! If enabled it will stop intents
 });
 
 client.registry
@@ -21,12 +21,14 @@ client.registry
 	.registerGroups([
 		["test", "A Testing group for developer commands."],
 		["main", "Gneral commands to be used by anyone."],
-		["info", "information on the bot."],
+		["info", "Information on the bot."],
 		["config", "Lets a server admin configer the bot."],
-		["images", "image commands."],
-		["owner", "owner only commands."],
-		["moderation", "moderator commands."],
+		["owner", "Owner only commands."],
+		["moderation", "Moderator commands."],
 		["server", "Commands that show server information."],
+		["fun", "Some random junk..."],
+		["admin", "Server admins use these commands."],
+		["images", "Random image commands."],
 		//	["", ""],
 	])
 	.registerDefaultGroups()
@@ -46,7 +48,7 @@ client.once("ready", async () => {
 	client.user.setActivity("with Javascript");
 });
 
-//! Database Struct
+//! Commando Database Struct
 const { mongo } = require("mongoose");
 const mongoose = require("./db/mongo");
 const MongoClient = require("mongodb").MongoClient;
@@ -62,6 +64,16 @@ client
 client.mongoose = require("./db/mongo");
 // Connects to mongo
 client.mongoose.init();
+
+client.on("message", async (message) => {
+	const Setprefix = message.guild
+		? message.guild.commandPrefix
+		: client.commandPrefix;
+
+	if (!message.content.startsWith(Setprefix) || message.author.bot) return;
+
+	await console.log("Loaded message event!");
+});
 
 // client.on errors
 client.on("warn", (info) => console.log(info));

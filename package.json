@@ -1,9 +1,10 @@
 {
 	"name": "deepweb2",
 	"version": "1.0.0",
-	"main": "src/bot.ts",
+	"main": "src/bot.js",
 	"license": "MIT",
 	"dependencies": {
+		"@discordjs/opus": "^0.4.0",
 		"ascii-table": "^0.0.9",
 		"canvas": "^2.6.1",
 		"cheerio": "^1.0.0-rc.5",
@@ -11,20 +12,34 @@
 		"cpu-stat": "^2.0.1",
 		"discord.js": "^12.5.1",
 		"discord.js-commando": "discordjs/Commando",
+		"erit-ytdl": "^0.1.3",
+		"google-play-scraper": "^8.0.2",
 		"html-entities": "^2.1.0",
 		"moment": "^2.29.1",
 		"moment-duration-format": "^2.3.2",
 		"mongodb": "^3.6.3",
 		"mongoose": "^5.11.12",
+		"nekos.life": "^2.0.7",
+		"node-opus": "^0.3.3",
 		"node-superfetch": "^0.1.10",
 		"nodemon": "^2.0.7",
+		"opusscript": "^0.0.7",
 		"os": "^0.1.1",
+		"request-promise-native": "^1.0.9",
+		"search-npm-registry": "^2.0.3",
+		"simple-youtube-api": "^5.2.1",
+		"snekfetch": "^4.0.4",
+		"soundcloud-downloader": "^0.2.4",
+		"sourcebin_js": "^0.0.3-ignore",
 		"stackblur-canvas": "^2.4.0",
+		"string-progressbar": "^1.0.3",
 		"superagent": "^6.1.0",
+		"typescript": "^4.1.3",
+		"urban": "^0.3.2",
 		"util": "^0.12.3"
 	},
 	"scripts": {
-		"dev": "nodemon",
-		"start": "node ."
+		"dev": "node . ",
+		"start": "nodemon"
 	}
 }
