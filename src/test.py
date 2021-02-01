@@ -1,83 +1,114 @@
-import sys
+import discord, asyncio, os, platform, sys
+from discord.ext.commands import Bot
+from discord.ext import commands
+if not os.path.isfile("config.py"):
+	sys.exit("'config.py' not found! Please add it and try again.")
+else:
+	import config
 
-import settings
-import discord
-import message_handler
+"""	
+Setup bot intents (events restrictions)
+For more information about intents, please go to the following websites:
+https://discordpy.readthedocs.io/en/latest/intents.html
+https://discordpy.readthedocs.io/en/latest/intents.html#privileged-intents
+"""
+intents = discord.Intents().default()
+intents.messages = True
+intents.reactions = True
+intents.presences = True
+intents.members = True
+intents.guilds = True
+intents.emojis = True
+intents.bans = True
+intents.guild_typing = False
+intents.typing = False
+intents.dm_messages = False
+intents.dm_reactions = False
+intents.dm_typing = False
+intents.guild_messages = True
+intents.guild_reactions = True
+intents.integrations = True
+intents.invites = True
+intents.voice_states = False
+intents.webhooks = False
+	
+bot = Bot(command_prefix=config.BOT_PREFIX, intents=intents)
 
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from events.base_event              import BaseEvent
-from events                         import *
-from multiprocessing                import Process
+# The code in this even is executed when the bot is ready
+@bot.event
+async def on_ready():
+	bot.loop.create_task(status_task())
+	print(f"Logged in as {bot.user.name}")
+	print(f"Discord.py API version: {discord.__version__}")
+	print(f"Python version: {platform.python_version()}")
+	print(f"Running on: {platform.system()} {platform.release()} ({os.name})")
+	print("-------------------")
 
-# Set to remember if the bot is already running, since on_ready may be called
-# more than once on reconnects
-this = sys.modules[__name__]
-this.running = False
+# Setup the game status task of the bot
+async def status_task():
+	while True:
+		await bot.change_presence(activity=discord.Game("with you!"))
+		await asyncio.sleep(60)
+		await bot.change_presence(activity=discord.Game("with Krypton!"))
+		await asyncio.sleep(60)
+		await bot.change_presence(activity=discord.Game(f"{config.BOT_PREFIX} help"))
+		await asyncio.sleep(60)
+		await bot.change_presence(activity=discord.Game("with humans!"))
+		await asyncio.sleep(60)
 
-# Scheduler that will be used to manage events
-sched = AsyncIOScheduler()
-
-
-###############################################################################
-
-def main():
-    # Initialize the client
-    print("Starting up...")
-    client = discord.Client()
-
-    # Define event handlers for the client
-    # on_ready may be called multiple times in the event of a reconnect,
-    # hence the running flag
-    @client.event
-    async def on_ready():
-        if this.running:
-            return
-
-        this.running = True
-
-        # Set the playing status
-        if settings.NOW_PLAYING:
-            print("Setting NP game", flush=True)
-            await client.change_presence(
-                activity=discord.Game(name=settings.NOW_PLAYING))
-        print("Logged in!", flush=True)
-
-        # Load all events
-        print("Loading events...", flush=True)
-        n_ev = 0
-        for ev in BaseEvent.__subclasses__():
-            event = ev()
-            sched.add_job(event.run, 'interval', (client,), 
-                          minutes=event.interval_minutes)
-            n_ev += 1
-        sched.start()
-        print(f"{n_ev} events loaded", flush=True)
-
-    # The message handler for both new message and edits
-    async def common_handle_message(message):
-        text = message.content
-        if text.startswith(settings.COMMAND_PREFIX) and text != settings.COMMAND_PREFIX:
-            cmd_split = text[len(settings.COMMAND_PREFIX):].split()
-            try:
-                await message_handler.handle_command(cmd_split[0].lower(), 
-                                      cmd_split[1:], message, client)
-            except:
-                print("Error while handling message", flush=True)
-                raise
-
-    @client.event
-    async def on_message(message):
-        await common_handle_message(message)
-
-    @client.event
-    async def on_message_edit(before, after):
-        await common_handle_message(after)
-
-    # Finally, set the bot running
-    client.run(settings.BOT_TOKEN)
-
-###############################################################################
-
+# Removes the default help command of discord.py to be able to create our custom help command.
+bot.remove_command("help")
 
 if __name__ == "__main__":
-    main()
+	for extension in config.STARTUP_COGS:
+		try:
+			bot.load_extension(extension)
+			extension = extension.replace("cogs.", "")
+			print(f"Loaded extension '{extension}'")
+		except Exception as e:
+			exception = f"{type(e).__name__}: {e}"
+			extension = extension.replace("cogs.", "")
+			print(f"Failed to load extension {extension}\n{exception}")
+
+# The code in this event is executed every time someone sends a message, with or without the prefix
+@bot.event
+async def on_message(message):
+	# Ignores if a command is being executed by a bot or by the bot itself
+	if message.author == bot.user or message.author.bot:
+		return
+	else:
+		if message.author.id not in config.BLACKLIST:
+			# Process the command if the user is not blacklisted
+			await bot.process_commands(message)
+		else:
+			# Send a message to let the user know he's blacklisted
+			context = await bot.get_context(message)
+			embed = discord.Embed(
+				title="You're blacklisted!",
+				description="Ask the owner to remove you from the list if you think it's not normal.",
+				color=0x00FF00
+			)
+			await context.send(embed=embed)
+
+# The code in this event is executed every time a command has been *successfully* executed
+@bot.event
+async def on_command_completion(ctx):
+	fullCommandName = ctx.command.qualified_name
+	split = fullCommandName.split(" ")
+	executedCommand = str(split[0])
+	print(f"Executed {executedCommand} command in {ctx.guild.name} by {ctx.message.author} (ID: {ctx.message.author.id})")
+
+# The code in this event is executed every time a valid commands catches an error
+@bot.event
+async def on_command_error(context, error):
+	if isinstance(error, commands.CommandOnCooldown):
+		embed = discord.Embed(
+			title="Error!",
+			description="This command is on a %.2fs cooldown" % error.retry_after,
+			color=0x00FF00
+		)
+		await context.send(embed=embed)
+	raise error
+
+# Run the bot with the token
+bot.run(config.token)
