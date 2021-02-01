@@ -12,6 +12,7 @@ bot.js
 commands
 db
 util
+index.js
 
 # website 
 test
